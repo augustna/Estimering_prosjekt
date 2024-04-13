@@ -17,12 +17,13 @@ MSE = 0.5 *
 
 alpha = 0.1;
 
-%m = ?
+%m = ? Tror man kan velge m fritt. Iterations
 m = 150;
 
 %W0 = ?
 W0 = [];
 %}
+% Definere sigmoid funksjon
 m = 5;
 for k = 1:m
     

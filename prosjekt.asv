@@ -1,10 +1,6 @@
 x1all = load('class_1','-ascii');
 x2all = load('class_2','-ascii');
 x3all = load('class_3','-ascii');
-xAllTable = readtable('iris.data', 'FileType', 'text', 'Format', '%f%f%f%f%C', 'ReadVariableNames', false);
-
-
-disp(T);
 
 % Target vectors
 t1 = [1 0 0]';
@@ -23,7 +19,6 @@ m = 150;
 %W0 = ?
 W0 = [];
 %}
-m = 5;
 for k = 1:m
     
 end

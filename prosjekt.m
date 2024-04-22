@@ -1,6 +1,8 @@
-x1all = load('class_1','-ascii');
-x2all = load('class_2','-ascii');
-x3all = load('class_3','-ascii');
+%run('confusionMatrix.m');
+
+x1all = load('./class_1','-ascii');
+x2all = load('./class_2','-ascii');
+x3all = load('./class_3','-ascii');
 xAllTable = readtable('iris.data', 'FileType', 'text', 'Format', '%f%f%f%f%C', 'ReadVariableNames', false);
 
 %Construct training set
@@ -21,7 +23,6 @@ x1Test = x1all(31:50, :);
 x2Test = x2all(31:50, :);
 x3Test = x3all(31:50, :);
 xTest = [x1Test; x2Test; x3Test];
-disp(size(xTrain));
 % Target vectors
 t_k_1 = [1 0 0]';
 t_k_2 = [0 1 0]';
@@ -41,10 +42,11 @@ W = zeros(3,5);
 m = 1; %Iterations
 vecof1 = [1;1;1];
 
-tol = 0.001;
+tol = 0.01;
 iterations = 0;
 
-test_answers = zeros(60, 1);
+train_results = zeros(90, 1);
+test_results = zeros(60, 1);
 
 conf_mat = zeros(3,3);
 
@@ -63,6 +65,9 @@ while iterations <= 15000%norm(grad_W_MSE) >= tol
         z_k = W * x_k;
         %Sigmoid
         g_k = 1./(1+exp(-z_k));
+        
+  
+        
         %Gradients
         grad_gk_MSE = (g_k-t_k);
         grad_zk_g = g_k.*(1-g_k);
@@ -71,30 +76,53 @@ while iterations <= 15000%norm(grad_W_MSE) >= tol
         grad_W_MSE = grad_W_MSE + (grad_gk_MSE.*grad_zk_g)*grad_W_zk;
     end
     
+    
+    
+    
 
     W = W - alpha*grad_W_MSE;
     
     grad_W_MSE = 0;
     iterations = iterations + 1;
-    disp(iterations);
 end
 
-disp(iterations);
-g = zeros(60, 3);
+
+%confusion matrix for training
+for k = 1:N
+    x_k = xTrain(k,:)';
+    z_k = W * x_k;
+    %Sigmoid
+    g_k = 1./(1+exp(-z_k));
+    [~, train_result] = max(g_k);
+    train_results(k) = train_result;
+end
+
+
 % Test
 for k = 1:60
     x_k = xTest(k, :)';
     z_k = W * x_k;
     %Sigmoid
     g_k = 1./(1+exp(-z_k));
-    disp(g_k)
     [~, test_result] = max(g_k);
     
-    test_answers(k) = test_result;
+    test_results(k) = test_result;
 
 end
+%Confusion matrix
+%True labels
+truelabel_test = zeros(60,1);
+truelabel_test(1:20) = 1;
+truelabel_test(21:40) = 2;
+truelabel_test(41:60) = 3;
+conf_mat_test = confusionMatrix(test_results, truelabel_test);
 
-[~, test_result] = max([0;0.5;0]);
-disp(test_result);
+truelabel_train = zeros(90,1);
+truelabel_train(1:30) = 1;
+truelabel_train(31:60) = 2;
+truelabel_train(61:90) = 3;
+conf_mat_train = confusionMatrix(train_results,truelabel_train);
 
+err_train = calculateErrorRate(conf_mat_train);
+err_test = calculateErrorRate(conf_mat_test);
 

@@ -41,37 +41,40 @@ W = zeros(3,5);
 m = 1; %Iterations
 vecof1 = [1;1;1];
 
-tol = ones(3, 5) * 0.1;
+tol = 0.001;
 iterations = 0;
 
-test_answers = zeros(20, 3);
+test_answers = zeros(60, 1);
 
-while iterations <= 3000 %norm(grad_W_MSE) >= 0.2
+conf_mat = zeros(3,3);
+
+while iterations <= 15000%norm(grad_W_MSE) >= tol
    
     %Train 
     for k = 1:N
-        if N <= 30
+        if k <= 30
             t_k = t_k_1;
-        elseif N <= 60
+        elseif k <= 60
             t_k = t_k_2;
         else
             t_k = t_k_3;
         end
-        
         x_k = xTrain(k,:)';
         z_k = W * x_k;
         %Sigmoid
         g_k = 1./(1+exp(-z_k));
         %Gradients
-        grad_gk_MSE = g_k-t_k;
+        grad_gk_MSE = (g_k-t_k);
         grad_zk_g = g_k.*(1-g_k);
         grad_W_zk = x_k';
         %MSE
-        grad_W_MSE = grad_W_MSE + grad_gk_MSE.*grad_zk_g*grad_W_zk;
+        grad_W_MSE = grad_W_MSE + (grad_gk_MSE.*grad_zk_g)*grad_W_zk;
     end
+    
 
-    W = W -alpha*grad_W_MSE;
-
+    W = W - alpha*grad_W_MSE;
+    
+    grad_W_MSE = 0;
     iterations = iterations + 1;
     disp(iterations);
 end
@@ -84,16 +87,14 @@ for k = 1:60
     z_k = W * x_k;
     %Sigmoid
     g_k = 1./(1+exp(-z_k));
+    disp(g_k)
+    [~, test_result] = max(g_k);
     
-    %{
-    [~, test_result1] = max(g_k(:, 1));
-    [~, test_result2] = max(g_k(:, 2));
-    [~, test_result3] = max(g_k(:, 3));
-    
-    test_answers(k, 1) = test_result1;
-    test_answers(k, 2) = test_result1;
-    test_answers(k, 3) = test_result1;
-    %}
+    test_answers(k) = test_result;
+
 end
+
+[~, test_result] = max([0;0.5;0]);
+disp(test_result);
 
 

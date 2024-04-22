@@ -20,7 +20,7 @@ xTrain = [x1Train; x2Train; x3Train];
 x1Test = x1all(31:50, :);
 x2Test = x2all(31:50, :);
 x3Test = x3all(31:50, :);
-xTrain = [x1Test; x2Test; x3Test];
+xTest = [x1Test; x2Test; x3Test];
 disp(size(xTrain));
 % Target vectors
 t_k_1 = [1 0 0]';
@@ -33,7 +33,7 @@ t_k = [1 0 0;
      
 N = 90; %Training 90 samples
 C = 3; %number of classes
-alpha = 0.001;
+alpha = 0.01;
 
 %Init
 grad_W_MSE = ones(3,5);
@@ -41,56 +41,60 @@ W = zeros(3,5);
 m = 1; %Iterations
 vecof1 = [1;1;1];
 
-tol = ones(3, 5) * 0.1;
+tol = 0.001;
 iterations = 0;
 
-test_answers = zeros(20, 3);
+test_answers = zeros(60, 1);
+prev 
 
-while abs(grad_W_MSE) >= tol
+
+while norm(W - prev_W) >= tol
    
     %Train 
     for k = 1:N
-        if N <= 30
+        if k <= 30
             t_k = t_k_1;
-        elseif N <= 60
+        elseif k <= 60
             t_k = t_k_2;
         else
             t_k = t_k_3;
         end
-        
-        x_k = xTrain(k,:);
-        z_k = W * x_k';
+        x_k = xTrain(k,:)';
+        z_k = W * x_k;
         %Sigmoid
         g_k = 1./(1+exp(-z_k));
         %Gradients
-        grad_gk_MSE = g_k-t_k;
+        grad_gk_MSE = (g_k-t_k);
         grad_zk_g = g_k.*(1-g_k);
         grad_W_zk = x_k';
         %MSE
-        grad_W_MSE = grad_W_MSE + grad_gk_MSE*grad_zk_g*grad_W_zk;
+        grad_W_MSE = grad_W_MSE + (grad_gk_MSE.*grad_zk_g)*grad_W_zk;
     end
+    
 
-    W = W -alpha*grad_W_MSE;
-
+    W = W - alpha*grad_W_MSE;
+    
+    grad_W_MSE = 0;
     iterations = iterations + 1;
+    disp(iterations);
 end
 
 disp(iterations);
 g = zeros(60, 3);
 % Test
 for k = 1:60
-    x_k = xTest(k, :);
-    z_k = W * x_k';
+    x_k = xTest(k, :)';
+    z_k = W * x_k;
     %Sigmoid
     g_k = 1./(1+exp(-z_k));
+    disp(g_k)
+    [~, test_result] = max(g_k);
     
-    [~, test_result1] = max(g_k(:, 1));
-    [~, test_result2] = max(g_k(:, 2));
-    [~, test_result3] = max(g_k(:, 3));
-    
-    test_answers(k, 1) = test_result1;
-    test_answers(k, 2) = test_result1;
-    test_answers(k, 3) = test_result1;
+    test_answers(k) = test_result;
+
 end
+
+[~, test_result] = max([0;0.5;0]);
+disp(test_result);
 
 

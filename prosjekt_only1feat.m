@@ -12,12 +12,13 @@ x1all(:,5) = 1;
 x2all(:,5) = 1;
 x3all(:,5) = 1;
 
-% 2b) Feature 2 seems to have the most overlap
-% So removing it's column from the data matrix
+% 2b) Removing feature 2, 3 and 4 XD
 % Remove the second column and shift others to the left
-x1all(:, 2) = [];
-x2all(:, 2) = [];
-x3all(:, 2) = [];
+for k = 1:3
+    x1all(:, 2) = [];
+    x2all(:, 2) = [];
+    x3all(:, 2) = [];
+end
 
 
 
@@ -71,8 +72,8 @@ C = 3; %number of classes
 alpha = 0.01;
 
 %Init
-grad_W_MSE = ones(3,4);
-W = zeros(3,4);
+grad_W_MSE = ones(3,2);
+W = zeros(3,2);
 m = 1; %Iterations
 vecof1 = [1;1;1];
 

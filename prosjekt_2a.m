@@ -12,6 +12,14 @@ x1all(:,5) = 1;
 x2all(:,5) = 1;
 x3all(:,5) = 1;
 
+% 2b) Feature 2 seems to have the most overlap
+% So removing it's column from the data matrix
+% Remove the second column and shift others to the left
+x1all(:, 2) = [];
+x2all(:, 2) = [];
+x3all(:, 2) = [];
+
+
 
 %Extract first 30 rows for training
 

@@ -1,0 +1,23 @@
+% Clustering
+M = 64;
+group = groupMatrixRowsByVector(trainv, trainlab);
+% C_i contains clustered data
+
+
+% Finding
+
+
+for class = 1:10
+    
+    [idx_i, C_i] = kmeans(group{class}, M);
+    distances_clustered = pdist2(test_chunk, C_i);
+    [class_min, colIndices] = min(distances_clustered, [], 2);
+    
+    if class == 1 
+       min_class = 1;
+       current_min = class_min;
+    end
+    
+    current
+    
+end

@@ -15,6 +15,7 @@ group = groupMatrixRowsByVector(trainv, trainlab);
 % than the nearest this far
 % If the sample is nearer the current class than the one in nearest class,
 % current_min is updated and nearest_class is updated
+
 for class = 1:10
     [idx_i, C_i] = kmeans(group{class}, M);
     distances_clustered = pdist2(test_chunk, C_i);
@@ -32,8 +33,6 @@ for class = 1:10
         end
     end
 end
-
-disp(nearest_class);
 
 conf_matrix_clustered = confusionMatrix(nearest_class, testlab(1:1000));
 error_rate = calculateErrorRate(conf_matrix_clustered);

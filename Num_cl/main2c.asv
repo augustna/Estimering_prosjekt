@@ -59,8 +59,7 @@ for row = 1:size(smallestKIndices, 1)
     
     % Checking for duplicates among the most frequent
     % If duplicates, the nearest class is added to answer matrix
-    % The if statement is never (almost)entered, but it does add
-    % around 6 seconds to the runtime
+    % The 
 
     counter = 0;
     if ismember(maxIndex, duplicateIndices)

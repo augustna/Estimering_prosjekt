@@ -1,9 +1,10 @@
+tic;
 k = 1;
 test_chunk = testv(1000*(k-1) + 1:k*1000, :);
 
 % Clustering
 M = 64;
-tic;
+
 group = groupMatrixRowsByVector(trainv, trainlab);
 % C_i contains clustered data
 

@@ -25,4 +25,14 @@ for class = 1:10
 end
 conf_matrix_clustered = confusionMatrix(nearest_class, testlab(1:1000));
 error_rate = calculateErrorRate(conf_matrix_clustered);
+
+% Create a confusion chart
+figure;
+confChart = confusionchart(conf_matrix_clustered, 'RowSummary','row-normalized', 'ColumnSummary','column-normalized');
+
+% Set titles and labels as needed
+title('Confusion Matrix');
+confChart.RowSummary = 'row-normalized';  % Normalize by row to show row-wise percentages
+confChart.ColumnSummary = 'column-normalized';  % Normalize by column to show column-wise percentages
+
 % Elapsed time about 12.1158943 seconds

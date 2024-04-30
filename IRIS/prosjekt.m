@@ -1,4 +1,4 @@
-%run('confusionMatrix.m');
+prof%run('confusionMatrix.m');
 
 x1all = load('./class_1','-ascii');
 x2all = load('./class_2','-ascii');

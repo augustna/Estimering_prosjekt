@@ -14,37 +14,37 @@ x3all(:,5) = 1;
 
 
 %Extract first 30 rows for training
-
+%{
 x1Train = x1all(1:30, :);
 x2Train = x2all(1:30, :);
 x3Train = x3all(1:30, :);
 xTrain = [x1Train; x2Train; x3Train];
-
+%}
 
 %Extract last 30 rows for training
-%{
+
 x1Train = x1all(21:50, :);
 x2Train = x2all(21:50, :);
 x3Train = x3all(21:50, :);
 xTrain = [x1Train; x2Train; x3Train];
-%}
+
 
 
 %Extract last 20 rows for testing
-
+%{
 x1Test = x1all(31:50, :);
 x2Test = x2all(31:50, :);
 x3Test = x3all(31:50, :);
 xTest = [x1Test; x2Test; x3Test];
-
+%}
 
 %Extract first 20 rows for testing
-%{
+
 x1Test = x1all(1:20, :);
 x2Test = x2all(1:20, :);
 x3Test = x3all(1:20, :);
 xTest = [x1Test; x2Test; x3Test];
-%}
+
 
 % Target vectors
 t_k_1 = [1 0 0]';

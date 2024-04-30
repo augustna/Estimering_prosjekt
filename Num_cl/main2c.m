@@ -1,10 +1,3 @@
-
-
-% Example matrix
-A = [10 3 5 2 8];
-
-
-
 tic;
 % KNN
 K = 7;
@@ -19,12 +12,9 @@ distances = pdist2(test_chunk, trainv);
 [~, minIndices] = min(distances, [], 2);
 nearest_classes = trainlab(minIndices);
 
-
 [sortedValues, sortedIndices] = sort(distances, 2, 'ascend');
 
-
 smallestKIndices = sortedIndices(:, 1:K);
-
 
 K_nearest_classes = trainlab(smallestKIndices);
 KNN_nearest_class = zeros(1000,1);
@@ -76,18 +66,15 @@ for row = 1:size(smallestKIndices, 1)
     end
     dups(row) = counter;
    
-
 end
-
 
 conf_matrix = confusionMatrix(KNN_nearest_class, testlab(1:1000));
 error_rate = calculateErrorRate(conf_matrix);
-
-
 misclassifications = find(KNN_nearest_class ~= testlab(1:1000, :));
 
-%misclassified_img = zeros(28,28); misclassified_img(:)= testv(1,:);
+misclassified_img = zeros(28,28); misclassified_img(:)= testv(1,:);
 %misclassified_img2 = zeros(28,28); misclassified_img(:)= testv(1,:);
+image(misclassified_img);
 
 toc;
 % Elapsed time about 7.4 seconds
